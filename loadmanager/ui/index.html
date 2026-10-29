@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en" data-native="false">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Load Manager</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="#overview" aria-label="Load Manager, overview"><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M5 23 13 7h8l-8 16zM15 27l8-16h7l-8 16z"/></svg><span>Load Manager</span></a>
+    <div class="workspace-label">MENU</div>
+    <nav aria-label="Main menu">
+      <button class="nav-item active" data-page="overview"><span data-icon="grid"></span>Overview<span class="nav-key">01</span></button>
+      <button class="nav-item" data-page="profiles"><span data-icon="sliders"></span>Profiles</button>
+      <button class="nav-item" data-page="apps"><span data-icon="layers"></span>Apps<span id="app-count" class="nav-count">—</span></button>
+      <button class="nav-item" data-page="render"><span data-icon="film"></span>Render</button>
+      <button class="nav-item" data-page="video"><span data-icon="video"></span>Video<span id="video-dot" class="nav-dot" hidden></span></button>
+      <button class="nav-item" data-page="spikes"><span data-icon="cpu"></span>Spikes</button>
+      <button class="nav-item" data-page="power"><span data-icon="bolt"></span>Power</button>
+      <button class="nav-item" data-page="activity"><span data-icon="clock"></span>Session log</button>
+      <button class="nav-item" data-page="settings"><span data-icon="settings"></span>About</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="local-note"><span data-icon="shield"></span><div>On this device<small>No account, no cloud</small></div></div>
+      <div class="device"><span class="device-icon" data-icon="laptop"></span><div><strong id="device-name">Connecting…</strong><small id="device-detail">Load Manager 0.8 · Preview</small></div><span class="status-dot"></span></div>
+    </div>
+  </aside>
+  <main>
+    <header class="topbar"><span><span class="breadcrumb">Load Manager</span><span class="slash">/</span><span id="page-label">Overview</span></span><div class="top-actions"><span id="connection" class="connection"><i></i>Connecting</span><span class="version">v0.8</span></div></header>
+    <div id="demo-banner" class="demo-banner" hidden><span data-icon="info"></span><span><strong>Interface demo.</strong> Metrics are sample data; actions do not affect this computer.</span><button id="demo-platform" title="Switch the demo platform">Windows ⇄ macOS</button></div>
+    <section class="page active" id="page-overview" aria-labelledby="overview-title">
+      <div class="page-heading"><div><div class="eyebrow">BACKGROUND LOAD</div><h1 id="overview-title">Overview</h1><p>CPU, memory and background apps at a glance.</p></div><button class="secondary compact" id="refresh"><span data-icon="refresh"></span>Refresh</button></div>
+      <section class="hero panel">
+        <div class="hero-copy"><div class="hero-badge"><span class="status-dot"></span><span id="hero-status">MONITORING</span></div><h2 id="hero-title">Limit background<br><em>CPU and memory use.</em></h2><p id="hero-description">Pick a profile and the apps that can wait. Their priority and memory use are reduced until you end the session.</p><div class="hero-actions"><button class="primary" id="main-action"><span data-icon="play"></span><span id="main-action-label">Set up session</span></button><button class="secondary" id="quick-render"><span data-icon="film"></span>Render mode</button><span id="hero-footnote">Nothing changes until you apply a plan.</span></div></div>
+        <div class="orb-art" aria-hidden="true"><div class="orb-grid"></div><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div><div class="orb"><svg viewBox="0 0 34 34"><path d="M5 23 13 7h8l-8 16zM15 27l8-16h7l-8 16z"/></svg></div><div class="orbit-label"><i></i><span id="orb-label">Idle</span></div><span class="coordinate coord-a">STATUS</span><span class="coordinate coord-b">LOCAL ONLY</span></div>
+      </section>
+      <div class="section-heading"><h2>System load</h2><span class="muted small">Refreshes every 2 seconds</span></div>
+      <div class="metrics">
+        <article class="metric panel"><div class="metric-label"><span data-icon="cpu"></span>Processor<span class="metric-unit">CPU</span></div><div class="metric-value"><span id="cpu-value">—</span><small>%</small><svg id="cpu-spark" class="spark" viewBox="0 0 120 38" aria-hidden="true"></svg></div><div class="meter"><i id="cpu-meter"></i></div><div class="metric-bottom" id="cpu-caption">Collecting metrics</div></article>
+        <article class="metric panel"><div class="metric-label"><span data-icon="memory"></span>Memory<span class="metric-unit">RAM</span></div><div class="metric-value"><span id="ram-value">—</span><small>GB</small><span id="ram-total" class="metric-side">of — GB</span></div><div class="meter blue"><i id="ram-meter"></i></div><div class="metric-bottom" id="ram-caption">Available memory: —</div></article>
+        <article class="metric panel"><div class="metric-label"><span data-icon="disk"></span>Disk<span class="metric-unit">I/O</span></div><div class="metric-value"><span id="disk-value">—</span><small>MB/s</small></div><div class="disk-ticks" aria-hidden="true"></div><div class="metric-bottom" id="disk-caption">Read + write</div></article>
+        <article class="metric panel"><div class="metric-label"><span data-icon="battery"></span>Power<span class="metric-unit" id="power-kind">—</span></div><div class="metric-value"><span id="battery-value">—</span><small id="battery-unit"></small></div><div class="power-line"><span data-icon="bolt"></span><span id="power-caption">Reading power state</span></div><div class="metric-bottom">Power settings are not changed</div></article>
+      </div>
+      <section class="bench panel" id="bench-panel" aria-labelledby="bench-title">
+        <div class="bench-head"><div><h2 id="bench-title">CPU benchmark</h2><p class="muted small">How much CPU a normal-priority job gets while background apps run. Measure before a session, start the session, then measure again.</p></div><button class="secondary compact" id="bench-run"><span data-icon="play"></span><span id="bench-run-label">Run (≈8 s)</span></button></div>
+        <div class="bench-grid">
+          <div><small>Without session</small><strong id="bench-base">—</strong><span class="muted small" id="bench-base-note"></span></div>
+          <div><small>With session</small><strong id="bench-now">—</strong><span class="muted small" id="bench-now-note"></span></div>
+          <div class="bench-delta"><small>Difference</small><strong id="bench-delta">—</strong></div>
+        </div>
+        <div class="meter" id="bench-meter" hidden><i id="bench-progress"></i></div>
+        <p class="small muted" id="bench-note">Measure without a session first.</p>
+        <p class="small" id="session-stats" hidden></p>
+      </section>
+      <div class="dashboard-bottom">
+        <section class="chart-panel panel"><div class="panel-heading"><div><h2>Load over time</h2><p>Last 2 minutes</p></div><div class="legend"><span><i></i>CPU</span><span><i></i>RAM</span></div></div><div class="chart-wrap"><div class="chart-labels"><span>100%</span><span>50%</span><span>0%</span></div><svg id="history-chart" viewBox="0 0 620 150" preserveAspectRatio="none" role="img" aria-label="CPU and memory usage chart"></svg></div><div class="chart-axis"><span>−2 min</span><span>−1 min</span><span>Now</span></div></section>
+        <section class="insight panel"><div class="insight-icon" data-icon="sparkles"></div><div class="eyebrow">STATUS</div><h3 id="insight-title">Start by observing</h3><p id="insight-text">Real metrics show what limits your work.</p><button class="text-button" data-go="apps">View apps <span>↗</span></button></section>
+      </div>
+      <section class="quick-mode panel"><div><span class="mini-orb" data-icon="sliders"></span><div><h3>Choose a profile</h3><p>Focus for everyday work, Render for exports and other heavy jobs.</p></div></div><button class="secondary" data-go="profiles">Choose profile<span>→</span></button></section>
+    </section>
+    <section class="page" id="page-profiles" aria-labelledby="profiles-title">
+      <div class="page-heading"><div><div class="eyebrow">PROFILES</div><h1 id="profiles-title">Profiles</h1><p>A profile applies only to the apps and processes you select.</p></div></div>
+      <div class="profile-grid">
+        <button class="profile-card panel selected" data-profile="auto"><span class="profile-icon" data-icon="sparkles"></span><span class="profile-tag">RECOMMENDED</span><h2>Auto</h2><p>Picks Focus or Render when the session starts: Render if an export or video editor is running (ffmpeg, Resolve, Premiere).</p><span class="profile-detail">Decided at session start</span><span class="radio-indicator"></span></button>
+        <button class="profile-card panel" data-profile="focus"><span class="profile-icon" data-icon="code"></span><h2>Focus</h2><p>For everyday work. Selected background apps get below-normal priority and efficiency mode.</p><span class="profile-detail" id="focus-detail">Windows: below-normal priority</span><span class="radio-indicator"></span></button>
+        <button class="profile-card panel" data-profile="render"><span class="profile-icon" data-icon="film"></span><h2>Render</h2><p>For editing and exports. Background apps get the lowest priority, while ffmpeg and video editors get above-normal priority. If memory is short, the selected apps' memory is trimmed.</p><span class="profile-detail" id="render-detail">Windows: lowest priority</span><span class="radio-indicator"></span></button>
+      </div>
+      <div class="explanation panel"><span data-icon="info"></span><div><h3>Select apps first</h3><p id="platform-explanation">On Windows, background priority is lowered. Nothing is closed and no files are deleted.</p><p>Protected: system processes, editors, Load Manager itself and anything it started. Chrome, Claude, Telegram and Google Drive are available on Windows only. Every PID is re-verified before an action.</p></div><button class="primary" data-go="apps">Select apps<span>→</span></button></div>
+    </section>
+    <section class="page" id="page-apps" aria-labelledby="apps-title">
+      <div class="page-heading"><div><div class="eyebrow">BACKGROUND APPS</div><h1 id="apps-title">Select apps</h1><p id="apps-description">Select the background processes for this session.</p></div><button class="primary" id="review-action">Review plan<span>→</span></button></div>
+      <div class="section-heading group-heading"><h2>Heavy apps (CPU and memory)</h2><button class="text-button" id="select-heavy">Select all heavy apps</button></div>
+      <div class="group-grid" id="group-list"></div>
+      <div class="section-heading"><h2>All processes</h2><span class="muted small">Light background apps are selected one by one</span></div>
+      <div class="app-toolbar"><label class="search"><span data-icon="search"></span><input id="process-search" placeholder="Search apps…" autocomplete="off" aria-label="Search apps"></label><div class="filter-group"><button class="filter active" data-filter="all">All</button><button class="filter" data-filter="eligible">Changeable</button><button class="filter" data-filter="protected">Protected</button></div></div>
+      <div class="process-panel panel"><table><thead><tr><th><span class="sr-only">Select</span></th><th>App / process</th><th><button id="sort-cpu">CPU ↓</button></th><th><button id="sort-memory">Memory</button></th><th>Status</th></tr></thead><tbody id="process-body"></tbody></table><div class="empty" id="empty-processes" hidden>No matching processes.</div></div>
+      <p class="small muted table-note">Shows the most resource-hungry processes of your user and every available background app. Each PID is selected separately.</p>
+      <div class="selection-bar"><span><strong id="selected-count">0</strong> selected · <span id="selected-profile">Auto</span></span><button class="text-button" id="clear-selection">Clear selection</button><span class="selection-hint" id="selection-hint">Nothing applied yet</span></div>
+    </section>
+    <section class="page" id="page-render" aria-labelledby="render-title">
+      <div class="page-heading"><div><div class="eyebrow">RENDER</div><h1 id="render-title">Render</h1><p>Start a session automatically when a render begins, and time a real command with and without one.</p></div></div>
+      <section class="panel auto-panel" id="auto-panel">
+        <div class="bench-head"><div><h2>Auto-start on render</h2><p class="muted small">When ffmpeg, Resolve or Premiere is busy, the Render profile is applied to the apps below. It ends about <span id="auto-grace">20</span> seconds after the render stops. A session you start yourself is never touched.</p></div><label class="switch"><input type="checkbox" id="auto-enabled"><span>Enabled</span></label></div>
+        <div class="group-grid auto-groups" id="auto-groups"></div>
+        <p class="small" id="auto-status"></p>
+        <h3 class="subhead">Recent renders</h3>
+        <div id="job-list" class="job-list"></div>
+        <p class="small muted">Durations are accurate to a few seconds. Different renders are not comparable; use the timer below for a fair test.</p>
+      </section>
+      <section class="panel timed-panel" id="timed-panel">
+        <div class="bench-head"><div><h2>Time a real command</h2><p class="muted small">Runs the command you type without a session and with one, and compares the times. The command is started directly (no shell) and only its run time is measured.</p></div></div>
+        <div class="field-grid">
+          <label class="field wide"><span>Command</span><input id="timed-command" autocomplete="off" spellcheck="false" placeholder='ffmpeg -i "input.mp4" -c:v libx264 "output.mp4"'></label>
+          <label class="field"><span>Working folder (optional)</span><input id="timed-cwd" autocomplete="off" spellcheck="false" placeholder="C:\Projects\lesson"></label>
+          <label class="field"><span>Order for A/B</span><select id="timed-order"><option value="baseline_first">Without session first</option><option value="session_first">With session first</option></select></label>
+        </div>
+        <div class="hero-actions"><button class="primary" id="timed-ab"><span data-icon="play"></span>Run A/B</button><button class="secondary" id="timed-baseline">Without session</button><button class="secondary" id="timed-session">With session</button><button class="secondary" id="timed-cancel" hidden>Cancel</button></div>
+        <div class="timed-live" id="timed-live" hidden><span class="status-dot"></span><span id="timed-phase"></span><strong id="timed-clock">0:00</strong></div>
+        <div class="bench-grid">
+          <div><small>Without session</small><strong id="timed-base">—</strong></div>
+          <div><small>With session</small><strong id="timed-now">—</strong></div>
+          <div class="bench-delta"><small>Time saved</small><strong id="timed-saved">—</strong></div>
+        </div>
+        <p class="small muted" id="timed-note">Enter a command and press Run A/B.</p>
+        <p class="small error-text" id="timed-error" hidden></p>
+        <div id="timed-history" class="job-list"></div>
+      </section>
+    </section>
+    <section class="page" id="page-spikes" aria-labelledby="spikes-title">
+      <div class="page-heading"><div><div class="eyebrow">SPIKE LOG</div><h1 id="spikes-title">Spikes</h1><p>Busy periods and the programs behind them. Measured every 2 seconds and kept on this device.</p></div></div>
+      <section class="panel rec-panel">
+        <div class="bench-head"><div><h2>Recorder</h2><p class="muted small">A busy period starts when the CPU stays above the start level for 6 seconds and ends after 10 seconds below the end level. Shares are CPU time on all cores, system services included. Only program names are stored, never command lines.</p></div><label class="switch"><input type="checkbox" id="rec-enabled"><span>Recording</span></label></div>
+        <div class="field-grid rec-fields">
+          <label class="field"><span>Start level (% CPU)</span><input type="number" id="rec-on-input" min="15" max="95" step="1"></label>
+          <label class="field"><span>End level (% CPU)</span><input type="number" id="rec-off-input" min="10" max="90" step="1"></label>
+        </div>
+        <div class="hero-actions"><button class="secondary compact" id="rec-save">Save levels</button></div>
+        <p class="small" id="rec-status"></p>
+        <div id="rec-current" class="job-list" hidden></div>
+      </section>
+      <section class="panel rec-panel"><h2>Biggest CPU users in busy periods</h2><p class="muted small">Added up over the last 30 recorded periods. "via Claude" means the program was started by a Claude session.</p><div id="rec-top" class="job-list"></div></section>
+      <section class="panel rec-panel"><div class="bench-head"><h2>Recent busy periods</h2><button class="secondary compact" id="rec-clear">Clear log</button></div><div id="rec-list" class="spike-list"></div></section>
+    </section>
+    <section class="page" id="page-power" aria-labelledby="power-title">
+      <div class="page-heading"><div><div class="eyebrow">POWER</div><h1 id="power-title">Power</h1><p>Quiet mode makes the laptop quieter while you work, by a quieter power plan or by turning turbo boost off, and puts everything back afterwards.</p></div></div>
+      <section class="panel quiet-panel">
+        <div class="bench-head"><div><h2>Quiet mode</h2><p class="muted small">Two ways to make the laptop quieter: switch to a quieter power plan (Silent, else Balanced), or keep your plan and only turn turbo boost off and/or lower the maximum processor state in it. Everything is put back when you leave quiet mode, close the app, or after a crash.</p></div><span class="badge" id="quiet-badge">Off</span></div>
+        <p class="small" id="quiet-status"></p>
+        <div class="field-grid">
+          <label class="field"><span>Method</span><select id="quiet-mode"><option value="plan">Switch the power plan</option><option value="limit">Limit the processor (keeps your plan)</option></select></label>
+          <label class="field" id="quiet-boost-field"><span>Turbo boost</span><select id="quiet-boost"><option value="off">Turn it off (cooler, slower)</option><option value="keep">Leave it as it is</option></select></label>
+          <label class="field" id="quiet-cap-field"><span>Maximum processor state (%, 100 = leave alone)</span><input type="number" id="quiet-cap" min="30" max="100" step="1"></label>
+          <label class="field" id="quiet-scheme-field"><span>Quiet plan</span><select id="quiet-scheme"></select></label>
+          <label class="field" id="quiet-render-field"><span>Plan during renders</span><select id="quiet-render"></select></label>
+        </div>
+        <p class="small muted" id="quiet-method-note"></p>
+        <label class="switch"><input type="checkbox" id="quiet-awake"><span>Keep the laptop awake while work is running in quiet mode</span></label>
+        <label class="switch"><input type="checkbox" id="quiet-auto"><span>Enter quiet mode when Load Manager starts</span></label>
+        <div class="hero-actions"><button class="primary" id="quiet-enter">Enter quiet mode</button><button class="secondary" id="quiet-leave">Return to the original plan</button></div>
+        <p class="small muted" id="quiet-note"></p>
+        <h3 class="subhead">Power plans on this computer</h3>
+        <div id="quiet-list" class="job-list"></div>
+        <p class="small muted">Render sessions, auto-start and timed runs use the plan you had before (or the one chosen above), and quiet mode returns when they finish. If you or the laptop's own software change the plan, quiet mode steps aside and does not change it back. Laptop vendor tools (for example ASUS Armoury Crate) may keep their own fan profile; check by ear and with the spike log. A plan can differ in more than speed: on the ROG Zephyrus G14 the Silent plan sleeps and turns the display off after 5 minutes, Turbo after 30. Compare the plans in Windows power options before relying on quiet mode while you are away from the keyboard.</p>
+      </section>
+    </section>
+    <section class="page" id="page-video" aria-labelledby="video-title">
+      <div class="page-heading"><div><div class="eyebrow">VIDEO TOOLS</div><h1 id="video-title">Video</h1><p>Copy big files out of the cloud, make proxies, encode, copy results back and free disk space. Each button runs the matching <code>lm</code> command and shows what it prints.</p></div><button class="secondary compact" id="v-refresh"><span data-icon="refresh"></span>Refresh</button></div>
+      <p class="small error-text" id="v-offline" hidden></p>
+      <section class="panel v-panel" id="v-work" aria-labelledby="v-work-title">
+        <div class="bench-head"><div><h2 id="v-work-title">Work folder</h2><p class="muted small" id="v-work-note">Large files are copied here first and worked on here, never inside Google Drive, Dropbox, OneDrive or iCloud.</p></div><div class="hero-actions v-actions"><button class="secondary compact" id="v-open-work"><span data-icon="folder"></span>Open</button><button class="secondary compact" id="v-setup">Create folder</button></div></div>
+        <div class="bench-grid v-stats">
+          <div><small>Free disk space</small><strong id="v-free">—</strong><span class="muted small" id="v-free-note"></span></div>
+          <div><small>ffmpeg</small><strong id="v-ffmpeg">—</strong><span class="muted small" id="v-ffmpeg-note"></span></div>
+          <div><small>Projects</small><strong id="v-count">—</strong><span class="muted small" id="v-count-note"></span></div>
+        </div>
+        <div id="v-projects" class="v-projects"></div>
+        <details class="v-adv" id="v-settings">
+          <summary>Settings for these tools</summary>
+          <div class="field-grid">
+            <div class="field wide"><label for="v-set-work">Work folder (empty = the VideoWork folder in your home folder)</label><span class="v-row"><input id="v-set-work" autocomplete="off" spellcheck="false" placeholder="D:\VideoWork"><button class="secondary compact" type="button" data-pick="folder" data-target="v-set-work">Choose…</button></span></div>
+            <label class="field"><span>Video encoder</span><select id="v-set-hw"></select></label>
+            <label class="field"><span>Keep this much disk space free (GB)</span><input type="number" id="v-set-free" min="0" max="100000" step="1"></label>
+            <div class="field wide"><label for="v-set-ffmpeg">ffmpeg program (empty = find it automatically)</label><span class="v-row"><input id="v-set-ffmpeg" autocomplete="off" spellcheck="false" placeholder="C:\ffmpeg\bin\ffmpeg.exe"><button class="secondary compact" type="button" data-pick="program" data-target="v-set-ffmpeg">Choose…</button></span></div>
+          </div>
+          <div class="hero-actions"><button class="secondary compact" id="v-set-save">Save settings</button><span class="small muted">These apply to jobs started from this window. The <code>lm</code> command line uses its own environment variables.</span></div>
+        </details>
+      </section>
+      <section class="panel v-panel" id="v-tasks">
+        <div class="v-tabs" role="tablist" aria-label="Video tasks">
+          <button role="tab" class="active" data-vtab="fetch" aria-selected="true">1 · Copy from cloud</button>
+          <button role="tab" data-vtab="proxies" aria-selected="false">2 · Proxies</button>
+          <button role="tab" data-vtab="encode" aria-selected="false">3 · Encode</button>
+          <button role="tab" data-vtab="publish" aria-selected="false">4 · Copy back</button>
+          <button role="tab" data-vtab="clean" aria-selected="false">Free space</button>
+          <button role="tab" data-vtab="run" aria-selected="false">Run a command</button>
+          <button role="tab" data-vtab="doctor" aria-selected="false">Health check</button>
+          <button role="tab" data-vtab="kit" aria-selected="false">Claude kit</button>
+        </div>
+        <div class="v-tab" id="v-tab-fetch" role="tabpanel">
+          <h2>Copy from the cloud into the work folder</h2>
+          <p class="muted small">Pick files or whole folders from Google Drive, Dropbox, OneDrive or iCloud. They are copied with a size check, retried if the connection drops, and recorded so that Free space can later delete only copies whose original is still in the cloud.</p>
+          <div class="hero-actions"><button class="secondary compact" data-pick="videos" data-list="sources"><span data-icon="film"></span>Choose files…</button><button class="secondary compact" data-pick="folder" data-list="sources"><span data-icon="folder"></span>Choose folder…</button></div>
+          <div class="v-paths" id="v-fetch-list"></div>
+          <div class="field-grid">
+            <label class="field wide"><span>Or paste a path and press Enter</span><input id="v-fetch-path" autocomplete="off" spellcheck="false" placeholder="G:\My Drive\Wedding 2026"></label>
+            <label class="field"><span>Project name (optional)</span><input id="v-fetch-project" autocomplete="off" spellcheck="false" placeholder="taken from the folder name"></label>
+          </div>
+          <label class="switch"><input type="checkbox" id="v-fetch-verify"><span>Compare the content after copying (slower)</span></label>
+          <div class="hero-actions"><button class="secondary" id="v-fetch-plan">Check the plan</button><button class="primary" id="v-fetch-go"><span data-icon="play"></span>Copy</button><span class="small muted">The check lists what would be copied and whether there is room; nothing is copied.</span></div>
+        </div>
+        <div class="v-tab" id="v-tab-proxies" role="tabpanel" hidden>
+          <h2>Make editing proxies</h2>
+          <p class="muted small">A light copy of every clip in a project, so the editor stays smooth. Clips that already have a proxy are skipped, so a stopped run continues where it left off.</p>
+          <div class="field-grid">
+            <label class="field"><span>Project</span><select id="v-proxy-project"></select></label>
+            <label class="field"><span>Quality</span><select id="v-proxy-preset"><option value="proxy">Proxy: 720p H.264 (small and light)</option><option value="fast">Fast: full size, hardware encoder</option></select></label>
+          </div>
+          <div class="v-switches">
+            <label class="switch"><input type="checkbox" id="v-proxy-low"><span>Lower priority (keeps the computer usable)</span></label>
+            <label class="switch"><input type="checkbox" id="v-proxy-sw"><span>Software encoder only</span></label>
+            <label class="switch"><input type="checkbox" id="v-proxy-force"><span>Redo proxies that exist</span></label>
+            <label class="switch" data-mac><input type="checkbox" id="v-proxy-nohw"><span>No hardware decoding (Mac)</span></label>
+          </div>
+          <div class="hero-actions"><button class="primary" id="v-proxy-go"><span data-icon="play"></span>Make proxies</button><span class="small muted">The computer stays awake while it works, and you get a notification at the end.</span></div>
+        </div>
+        <div class="v-tab" id="v-tab-encode" role="tabpanel" hidden>
+          <h2>Encode a video</h2>
+          <p class="muted small">ffmpeg with sensible settings, using the video chip of this computer when it has a working one. Files in a cloud folder are refused: copy them out first.</p>
+          <div class="field-grid">
+            <div class="field wide"><label for="v-enc-in">Input file</label><span class="v-row"><input id="v-enc-in" autocomplete="off" spellcheck="false" placeholder="D:\VideoWork\wedding\src\clip.mov"><button class="secondary compact" type="button" data-pick="videos" data-target="v-enc-in" data-single>Choose…</button></span></div>
+            <p class="small error-text wide" id="v-enc-warn" hidden></p>
+            <div class="field wide"><label for="v-enc-out">Output file</label><span class="v-row"><input id="v-enc-out" autocomplete="off" spellcheck="false" placeholder="filled in for you"><button class="secondary compact" type="button" data-pick="save" data-target="v-enc-out">Save as…</button></span></div>
+            <label class="field"><span>Preset</span><select id="v-enc-preset"><option value="fast">Fast: hardware encoder, drafts and quick exports</option><option value="proxy">Proxy: 720p H.264 for editing</option><option value="final">Final: software encoder, best quality for the size</option></select></label>
+            <label class="field"><span>Codec</span><select id="v-enc-codec"><option value="h264">H.264 (plays everywhere)</option><option value="hevc">HEVC / H.265 (smaller files)</option></select></label>
+          </div>
+          <details class="v-adv"><summary>More options</summary>
+            <div class="field-grid">
+              <label class="field"><span>Bitrate for hardware encoders (like 12M)</span><input id="v-enc-bitrate" autocomplete="off" spellcheck="false" placeholder="automatic"></label>
+              <label class="field"><span>Extra ffmpeg arguments</span><input id="v-enc-extra" autocomplete="off" spellcheck="false" placeholder='-t 30'></label>
+            </div>
+            <div class="v-switches">
+              <label class="switch"><input type="checkbox" id="v-enc-low"><span>Lower priority</span></label>
+              <label class="switch"><input type="checkbox" id="v-enc-sw"><span>Software encoder only</span></label>
+              <label class="switch"><input type="checkbox" id="v-enc-force"><span>Overwrite the output if it exists</span></label>
+              <label class="switch" data-mac><input type="checkbox" id="v-enc-nohw"><span>No hardware decoding (Mac)</span></label>
+            </div>
+          </details>
+          <div class="hero-actions"><button class="secondary" id="v-enc-plan">Show the command</button><button class="primary" id="v-enc-go"><span data-icon="play"></span>Encode</button><span class="small muted">Presets write 8-bit video; a 10-bit or HDR input is reported.</span></div>
+        </div>
+        <div class="v-tab" id="v-tab-publish" role="tabpanel" hidden>
+          <h2>Copy results back to the cloud</h2>
+          <p class="muted small">Copies files into a cloud folder. A file with the same name and size is skipped, a different one is never replaced unless you say so, and your local files stay where they are. The cloud app uploads afterwards.</p>
+          <div class="field-grid">
+            <div class="field"><label for="v-pub-project">Add the finished renders of a project</label><span class="v-row"><select id="v-pub-project"></select><button class="secondary compact" type="button" id="v-pub-add-out">Add its out folder</button></span></div>
+          </div>
+          <div class="hero-actions"><button class="secondary compact" data-pick="files" data-list="items"><span data-icon="film"></span>Choose files…</button><button class="secondary compact" data-pick="folder" data-list="items"><span data-icon="folder"></span>Choose folder…</button></div>
+          <div class="v-paths" id="v-pub-list"></div>
+          <div class="field-grid">
+            <div class="field wide"><label for="v-pub-dest">Copy into this cloud folder</label><span class="v-row"><input id="v-pub-dest" autocomplete="off" spellcheck="false" placeholder="G:\My Drive\Wedding 2026\final"><button class="secondary compact" type="button" data-pick="folder" data-target="v-pub-dest">Choose…</button></span></div>
+          </div>
+          <label class="switch"><input type="checkbox" id="v-pub-force"><span>Replace files that exist with a different size</span></label>
+          <div class="hero-actions"><button class="primary" id="v-pub-go"><span data-icon="play"></span>Copy to the cloud</button></div>
+        </div>
+        <div class="v-tab" id="v-tab-clean" role="tabpanel" hidden>
+          <h2>Free disk space</h2>
+          <p class="muted small">Removes only what can be made again: local copies of cloud files (when the original is still there with the same size and the copy has not changed) and proxies. Finished renders in the out folder are never touched. Preview first; nothing is deleted until you confirm.</p>
+          <div class="field-grid"><label class="field"><span>Project</span><select id="v-clean-project"></select></label></div>
+          <div class="v-switches">
+            <label class="switch"><input type="checkbox" id="v-clean-src" checked><span>Local copies of cloud files</span></label>
+            <label class="switch"><input type="checkbox" id="v-clean-proxy"><span>Proxies</span></label>
+          </div>
+          <div class="hero-actions"><button class="secondary" id="v-clean-preview">Preview</button><button class="primary v-danger" id="v-clean-go" hidden>Delete these files</button></div>
+          <p class="small" id="v-clean-note"></p>
+        </div>
+        <div class="v-tab" id="v-tab-run" role="tabpanel" hidden>
+          <h2>Run a long command and keep the computer awake</h2>
+          <p class="muted small">Starts the command directly (no shell), keeps the computer from sleeping while it runs, writes a line to the run log and notifies you when it ends. Works for ffmpeg, HandBrake, scripts, n8n jobs, anything. Commands that work on a cloud folder are refused.</p>
+          <div class="field-grid">
+            <label class="field wide"><span>Command</span><input id="v-run-cmd" autocomplete="off" spellcheck="false" placeholder='ffmpeg -i "D:\VideoWork\lesson\src\a.mov" "D:\VideoWork\lesson\out\a.mp4"'></label>
+            <label class="field"><span>Name in the log (optional)</span><input id="v-run-name" autocomplete="off" spellcheck="false"></label>
+            <div class="field"><label for="v-run-cwd">Working folder (optional)</label><span class="v-row"><input id="v-run-cwd" autocomplete="off" spellcheck="false"><button class="secondary compact" type="button" data-pick="folder" data-target="v-run-cwd">Choose…</button></span></div>
+          </div>
+          <div class="v-switches">
+            <label class="switch"><input type="checkbox" id="v-run-low"><span>Lower priority</span></label>
+            <label class="switch"><input type="checkbox" id="v-run-notify" checked><span>Notify when it ends</span></label>
+          </div>
+          <div class="hero-actions"><button class="primary" id="v-run-go"><span data-icon="play"></span>Run</button></div>
+        </div>
+        <div class="v-tab" id="v-tab-doctor" role="tabpanel" hidden>
+          <h2>Health check</h2>
+          <p class="muted small">Changes nothing. Looks at free disk space, the power plan, the cloud app, ffmpeg and which video encoders really work on this computer (each is tried for one second).</p>
+          <div class="hero-actions"><button class="primary" id="v-doctor-go"><span data-icon="play"></span>Run the check</button></div>
+          <div id="v-doctor-rows" class="v-diag-list"></div>
+        </div>
+        <div class="v-tab" id="v-tab-kit" role="tabpanel" hidden>
+          <h2>Claude kit</h2>
+          <p class="muted small">Makes Claude safe and fast with big video files. It adds a guard that stops Claude from running ffmpeg or HandBrake inside a cloud folder, a skill that teaches Claude this routine, and an <code>lm</code> command for it to use. It changes one entry in Claude's <code>settings.json</code> (a backup is made first) and nothing else.</p>
+          <div id="v-kit-rows" class="v-diag-list"></div>
+          <p class="small error-text" id="v-kit-error" hidden></p>
+          <div class="hero-actions"><button class="primary" id="v-kit-install">Install</button><button class="secondary" id="v-kit-remove">Remove</button><span class="small muted" id="v-kit-note">Restart Claude afterwards so it picks the changes up.</span></div>
+        </div>
+      </section>
+      <section class="panel v-panel" id="v-queue" aria-labelledby="v-queue-title" hidden>
+        <div class="bench-head"><div><h2 id="v-queue-title">Queue</h2><p class="muted small" id="v-queue-note"></p></div><div class="hero-actions v-actions"><button class="secondary compact" id="v-queue-pause">Pause queue</button><button class="secondary compact" id="v-queue-clear">Clear</button></div></div>
+        <div id="v-queue-list" class="v-queue-list"></div>
+        <div class="field-grid v-queue-opts">
+          <div class="field"><label for="v-after">When everything is done</label><select id="v-after"></select></div>
+          <label class="switch"><input type="checkbox" id="v-keep-going"><span>Keep going when a job fails</span></label>
+        </div>
+        <div class="v-countdown" id="v-countdown" role="alert" hidden><span id="v-countdown-text"></span><button class="secondary compact" id="v-countdown-cancel">Cancel</button></div>
+        <p class="small error-text" id="v-after-error" hidden></p>
+        <p class="small muted">The buttons above add to the queue while a job runs. If you cancel a job the queue pauses. The choice above is for this time only: it is forgotten after it has happened, and it never fires after a job you cancelled yourself.</p>
+      </section>
+      <section class="panel v-panel" id="v-job" aria-labelledby="v-job-title" hidden>
+        <div class="bench-head"><div><h2 id="v-job-title">Job</h2><p class="muted small" id="v-job-command"></p></div><div class="hero-actions v-actions"><span class="badge" id="v-job-badge"></span><strong class="v-clock" id="v-job-clock">0:00</strong></div></div>
+        <div class="meter v-meter" id="v-job-meter" hidden><i id="v-job-bar"></i></div>
+        <p class="small" id="v-job-detail"></p>
+        <p class="small" id="v-job-summary"></p>
+        <div class="hero-actions v-actions v-left"><button class="secondary compact" id="v-job-cancel" hidden><span data-icon="stop"></span>Cancel</button><button class="secondary compact" id="v-job-copy">Copy the command</button><button class="secondary compact" id="v-job-show" hidden>Show the result in its folder</button></div>
+        <pre class="v-log" id="v-log" tabindex="0" aria-label="Output of the job" aria-live="off"></pre>
+      </section>
+      <section class="panel v-panel" id="v-recent" aria-labelledby="v-recent-title" hidden>
+        <h2 id="v-recent-title">Recent jobs</h2>
+        <div id="v-history" class="job-list"></div>
+      </section>
+    </section>
+    <section class="page" id="page-activity" aria-labelledby="activity-title"><div class="page-heading"><div><div class="eyebrow">SESSION LOG</div><h1 id="activity-title">Session log</h1><p>What was changed, what was restored and what needs attention.</p></div><button class="secondary" id="restore-action"><span data-icon="undo"></span>Restore all</button></div><div id="event-list" class="panel event-list"></div></section>
+    <section class="page" id="page-settings" aria-labelledby="settings-title"><div class="page-heading"><div><div class="eyebrow">LOAD MANAGER / 0.8.0</div><h1 id="settings-title">About</h1><p>A local process priority and memory manager.</p></div></div><div class="about-grid"><article class="panel about-card"><span data-icon="shield"></span><h2>Your data stays here</h2><p>No account, no analytics, and the process list is never sent anywhere. The recovery journal is stored on this device.</p></article><article class="panel about-card"><span data-icon="undo"></span><h2>Restoring the original state</h2><p>A restore button, plus a separate recovery process that runs after a crash. If a restore fails, the entry is kept for the next launch.</p></article><article class="panel about-card"><span data-icon="laptop"></span><h2>Behavior per platform</h2><p>Windows: priority, efficiency mode and memory trimming for Chrome, Claude, Telegram and Google Drive. macOS and Linux: pausing light background apps only; a pause does not free memory, so the browser and Claude are left alone there.</p></article><article class="panel about-card"><span data-icon="layers"></span><h2>Not implemented</h2><p>n8n and mailing control, GPU and temperature monitoring, disk I/O priority, cache cleanup and a mobile remote.</p></article></div><div class="explanation panel"><span data-icon="info"></span><div><h3>The gain depends on the load</h3><p>Load Manager gives CPU time to your job and frees memory when it is short. The benchmark shows what changed on this computer. If the limit is disk, GPU or a remote server, there will be no gain. Processes are never terminated and system services are never changed.</p></div></div></section>
+    <footer><span><span class="status-dot"></span><span id="footer-state">Monitoring only</span></span><span>Local only</span></footer>
+  </main>
+</div>
+<dialog id="plan-dialog"><form method="dialog" id="plan-form"><div class="modal-heading"><span class="eyebrow">BEFORE YOU START</span><button class="icon-button" id="close-dialog" type="button" aria-label="Close">×</button></div><h2>Session plan</h2><p id="plan-description"></p><ul id="plan-list"></ul><div class="modal-note" id="plan-note"></div><div class="modal-actions"><button type="button" class="secondary" id="cancel-plan">Back</button><button type="button" class="primary" id="confirm-plan">Apply plan<span>→</span></button></div></form></dialog>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

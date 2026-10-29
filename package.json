@@ -1,0 +1,14 @@
+{
+  "name": "loadmanager-ui-checks",
+  "version": "0.8.0",
+  "private": true,
+  "description": "Browser checks for the bundled Load Manager interface (not a runtime dependency)",
+  "scripts": {
+    "test": "node tests/ui.cjs",
+    "test:dom": "node tests/dom.cjs && node tests/dom_video.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0",
+    "playwright": "1.56.1"
+  }
+}

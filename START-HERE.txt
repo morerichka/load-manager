@@ -1,0 +1,94 @@
+LOAD MANAGER - QUICK START
+==========================
+
+WINDOWS
+1. Extract the whole ZIP into a permanent folder, for example Documents\LoadManager.
+   Do not run the app from inside the archive window.
+2. Double-click START-Windows.cmd.
+3. On the first run wait for the dependencies to install (internet required).
+   The environment is created inside this folder only. No administrator rights are needed.
+4. When Load Manager opens, pick a profile and the apps to limit.
+
+IMPORTANT: if another copy (an older Flowstate build) is running, close it first and end its
+session, otherwise its changes stay in place and this build may report that it is already running.
+
+DESKTOP SHORTCUT
+Double-click CREATE-Desktop-Shortcut.cmd. A "Load Manager" shortcut with the app icon
+appears on the desktop. Do not move the project folder afterwards: the shortcut and the
+installed environment point to it.
+
+IF PYTHON IS NOT INSTALLED
+This is a source archive with a launcher script, not a standalone installer.
+You need Python 3.11 or newer; 3.12 is recommended: https://www.python.org/downloads/windows/
+Keep the Python Launcher (py) option selected, then run START-Windows.cmd again.
+If you get a WebView2 error, install the Microsoft Edge WebView2 Runtime:
+https://developer.microsoft.com/microsoft-edge/webview2/
+
+MAC
+Python 3.11+ (3.12 recommended) from https://www.python.org/downloads/macos/
+Extract the archive fully and double-click START-Mac.command.
+If the file lost its execute permission after extraction, open Terminal in this folder and run:
+bash START-Mac.command
+This runs your local script; you do not need to disable macOS protections.
+
+JUST LOOK AT THE INTERFACE
+Open loadmanager-preview.html in a browser. It needs no Python.
+It shows sample data and does not control your computer.
+
+IF IT DOES NOT OPEN
+An error message appears; details are in loadmanager-startup.log.
+You can send the error text. Do not send passwords or tokens.
+If the folder was moved, run START-Windows.cmd again and recreate the shortcut.
+
+CLAUDE KIT FOR BIG VIDEO FILES (WINDOWS AND MAC)
+If you edit big video files with Claude and keep them in Google Drive, Dropbox, OneDrive or iCloud:
+  Windows:  double-click INSTALL-Claude-Kit.cmd
+  Mac:      double-click INSTALL-Claude-Kit.command   (if it does not open: bash INSTALL-Claude-Kit.command)
+Then restart Claude and ask it to run: lm doctor
+It stops Claude from running ffmpeg directly on a cloud folder, copies files to a local work folder
+(~/VideoWork), encodes with the hardware encoder your machine has (NVIDIA/AMD/Intel on Windows,
+VideoToolbox on Mac), keeps the computer awake during long renders and tells you when they are done.
+You also need ffmpeg (Mac: brew install ffmpeg; Windows: winget install ffmpeg) and Python 3.11+.
+Keep this folder where it is: the kit uses the private Python environment inside it.
+Remove it with: lm uninstall-claude
+
+VIDEO PAGE (NO TYPING NEEDED)
+Open Load Manager and choose "Video" in the menu. Every lm command is a tab there: copy from the cloud,
+make proxies, encode, copy back, free disk space, run a command, health check, Claude kit. Files are chosen
+with the normal file dialog, a running job shows progress and can be cancelled, and the exact command line is
+shown (and copyable) for each job. The window needs the desktop install (START-Windows.cmd / START-Mac.command).
+
+QUEUE AND "WHEN EVERYTHING IS DONE"
+While a job runs, the Copy / Make proxies / Encode / Copy back / Run buttons say "Add to queue" and the job
+waits its turn. Under the tabs, the Queue panel lets you reorder, remove, pause and resume, and choose what the
+computer does after the last job: nothing, sleep, hibernate or shut down. You get a 60-second countdown with a
+Cancel button first. Cancelling a job yourself pauses the queue and never switches the computer off.
+
+WHAT VERSION 0.8 DOES (WINDOWS)
+Chrome, Telegram and Google Drive sync get a low priority and efficiency mode; Claude has
+its memory trimmed (its priority is left alone). When 70% or more of RAM is in use, the
+selected apps' memory is moved to the standby list; nothing is closed.
+In the Render profile, ffmpeg, Resolve and Premiere get above-normal priority.
+The "Render mode" button on the overview selects all of this in one step and shows the plan.
+The CPU benchmark shows what changed on your computer.
+The Render page can start the session by itself when ffmpeg/Resolve/Premiere starts working
+(switch it on there; it is off by default) and end it when the render is over.
+It can also time a real command, once without and once with a session, and show the time saved.
+The Spikes page records every busy period and which programs caused it (including antivirus and
+other services, and work started by Claude), so you can see what makes the laptop loud.
+The Power page has Quiet mode, with two methods. "Switch the power plan" changes to a quieter plan
+(Silent or Balanced). "Limit the processor" keeps your plan and only turns turbo boost off and/or lowers
+the maximum processor state; on the ROG Zephyrus G14 that was the setting that really lowered the clock.
+Either way your original settings come back when you leave quiet mode, close the app, or after a crash.
+Renders use your original settings while they run. While quiet mode is on and work is running, the
+laptop is kept awake; a minute after the work ends it may sleep again. Laptop vendor tools (for example
+ASUS Armoury Crate) may keep their own fan profile; listen and look at the Spikes page to check.
+
+On Mac only light apps (Spotify, Discord, ...) are paused: music and calls in them stop too.
+Chrome and Claude are left alone there because a pause does not free memory.
+Cache cleanup, n8n control and a mobile remote are not implemented.
+
+The Windows mechanisms were verified on Windows 11 with test processes; the .cmd/.command
+launchers, the native pywebview window and Mac were not.
+
+Sources, tests and build scripts are in this same archive. See README.md.

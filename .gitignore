@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+.loadmanager-venv/
+loadmanager-startup.log
+node_modules/
+build/
+dist/
+*.spec
+.DS_Store
+.env
+.env.*
+test-results/
+playwright-report/

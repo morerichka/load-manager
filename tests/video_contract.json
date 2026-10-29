@@ -1,0 +1,733 @@
+{
+ "state_idle": {
+  "ok": true,
+  "running": false,
+  "job": null,
+  "history": [],
+  "settings": {
+   "work": "<tmp>\\VideoWork",
+   "hw": "auto",
+   "min_free_gb": 0.0,
+   "ffmpeg": "",
+   "work_effective": "<tmp>\\VideoWork",
+   "ffmpeg_found": null,
+   "hw_choices": [
+    "auto",
+    "none",
+    "nvenc",
+    "amf",
+    "qsv",
+    "videotoolbox"
+   ],
+   "platform": "Windows"
+  },
+  "queue": {
+   "items": [],
+   "paused": false,
+   "reason": null,
+   "keep_going": false,
+   "after": "nothing",
+   "after_choices": [
+    "nothing",
+    "sleep",
+    "hibernate",
+    "shutdown"
+   ],
+   "countdown": null,
+   "error": null
+  },
+  "now": 1793273301.6638696
+ },
+ "state_job": {
+  "ok": true,
+  "running": false,
+  "job": {
+   "id": 1,
+   "kind": "fetch",
+   "title": "Copy a.mov from the cloud",
+   "command": "lm fetch --project demo -- <tmp>\\cloudish\\a.mov",
+   "status": "done",
+   "code": 0,
+   "started": 1793273301.6648698,
+   "ended": 1793273301.8593576,
+   "cancelling": false,
+   "progress": 1.0,
+   "speed": null,
+   "eta": null,
+   "index": 1,
+   "count": 1,
+   "item": "a.mov (3.9 KB)",
+   "summary": "Copied 1, skipped 0, failed 0.",
+   "rows": [],
+   "output": null,
+   "project": "demo",
+   "lines_total": 8,
+   "result": null,
+   "lines": [
+    "Plan: 1 file(s), 3.9 KB -> <tmp>\\VideoWork\\demo\\src",
+    "Free on that disk: 2.7 TB (keeping at least 0 GB spare)",
+    "Reading from the cloud can take a while if the files are not downloaded yet.",
+    "[1/1] a.mov (3.9 KB)",
+    "  done in 0 s",
+    "Copied 1, skipped 0, failed 0."
+   ]
+  },
+  "history": [
+   {
+    "id": 1,
+    "kind": "fetch",
+    "title": "Copy a.mov from the cloud",
+    "command": "lm fetch --project demo -- <tmp>\\cloudish\\a.mov",
+    "status": "done",
+    "code": 0,
+    "started": 1793273301.6648698,
+    "ended": 1793273301.8593576,
+    "summary": "Copied 1, skipped 0, failed 0."
+   }
+  ],
+  "settings": {
+   "work": "<tmp>\\VideoWork",
+   "hw": "auto",
+   "min_free_gb": 0.0,
+   "ffmpeg": "",
+   "work_effective": "<tmp>\\VideoWork",
+   "ffmpeg_found": null,
+   "hw_choices": [
+    "auto",
+    "none",
+    "nvenc",
+    "amf",
+    "qsv",
+    "videotoolbox"
+   ],
+   "platform": "Windows"
+  },
+  "queue": {
+   "items": [],
+   "paused": false,
+   "reason": null,
+   "keep_going": false,
+   "after": "nothing",
+   "after_choices": [
+    "nothing",
+    "sleep",
+    "hibernate",
+    "shutdown"
+   ],
+   "countdown": null,
+   "error": null
+  },
+  "now": 1793273301.8846576
+ },
+ "state_clean": {
+  "ok": true,
+  "running": false,
+  "job": {
+   "id": 2,
+   "kind": "clean",
+   "title": "Preview what to delete for demo",
+   "command": "lm clean demo --src",
+   "status": "done",
+   "code": 0,
+   "started": 1793273301.8846576,
+   "ended": 1793273302.0193286,
+   "cancelling": false,
+   "progress": 1.0,
+   "speed": null,
+   "eta": null,
+   "index": null,
+   "count": null,
+   "item": "",
+   "summary": "Nothing was removed. Add --yes to do it. (out/ is never touched.)",
+   "rows": [],
+   "output": null,
+   "project": "demo",
+   "lines_total": 3,
+   "result": {
+    "clean": {
+     "applied": false,
+     "count": 1,
+     "size": "3.9 KB"
+    }
+   },
+   "lines": [
+    "Would remove 1 file(s), 3.9 KB:",
+    "  src/a.mov",
+    "Nothing was removed. Add --yes to do it. (out/ is never touched.)"
+   ]
+  },
+  "history": [
+   {
+    "id": 2,
+    "kind": "clean",
+    "title": "Preview what to delete for demo",
+    "command": "lm clean demo --src",
+    "status": "done",
+    "code": 0,
+    "started": 1793273301.8846576,
+    "ended": 1793273302.0193286,
+    "summary": "Nothing was removed. Add --yes to do it. (out/ is never touched.)"
+   },
+   {
+    "id": 1,
+    "kind": "fetch",
+    "title": "Copy a.mov from the cloud",
+    "command": "lm fetch --project demo -- <tmp>\\cloudish\\a.mov",
+    "status": "done",
+    "code": 0,
+    "started": 1793273301.6648698,
+    "ended": 1793273301.8593576,
+    "summary": "Copied 1, skipped 0, failed 0."
+   }
+  ],
+  "settings": {
+   "work": "<tmp>\\VideoWork",
+   "hw": "auto",
+   "min_free_gb": 0.0,
+   "ffmpeg": "",
+   "work_effective": "<tmp>\\VideoWork",
+   "ffmpeg_found": null,
+   "hw_choices": [
+    "auto",
+    "none",
+    "nvenc",
+    "amf",
+    "qsv",
+    "videotoolbox"
+   ],
+   "platform": "Windows"
+  },
+  "queue": {
+   "items": [],
+   "paused": false,
+   "reason": null,
+   "keep_going": false,
+   "after": "nothing",
+   "after_choices": [
+    "nothing",
+    "sleep",
+    "hibernate",
+    "shutdown"
+   ],
+   "countdown": null,
+   "error": null
+  },
+  "now": 1793273302.103043
+ },
+ "state_doctor": {
+  "ok": true,
+  "running": false,
+  "job": {
+   "id": 3,
+   "kind": "doctor",
+   "title": "Health check",
+   "command": "lm doctor",
+   "status": "done",
+   "code": 0,
+   "started": 1793273302.103043,
+   "ended": 1793273305.0407512,
+   "cancelling": false,
+   "progress": 1.0,
+   "speed": null,
+   "eta": null,
+   "index": null,
+   "count": null,
+   "item": "",
+   "summary": null,
+   "rows": [
+    {
+     "tag": "info",
+     "text": "Windows 11, AMD64, AMD64 Family 26 Model 36 Stepping 0, AuthenticAMD"
+    },
+    {
+     "tag": "info",
+     "text": "power plan: Turbo (the Power page of the Load Manager app can make it quieter)"
+    },
+    {
+     "tag": "info",
+     "text": "power: 100% plugged in"
+    },
+    {
+     "tag": "info",
+     "text": "free disk space at <tmp>\\VideoWork: 2.7 TB"
+    },
+    {
+     "tag": "info",
+     "text": "work folder holds 4.0 KB"
+    },
+    {
+     "tag": "info",
+     "text": "cloud folder: C:\\Users\\me\\OneDrive"
+    }
+   ],
+   "output": null,
+   "project": null,
+   "lines_total": 15,
+   "result": null,
+   "lines": [
+    "Load Manager 0.8.0 - video workflow report (read-only)",
+    "[info]    Windows 11, AMD64, AMD64 Family 26 Model 36 Stepping 0, AuthenticAMD",
+    "[info]    power plan: Turbo (the Power page of the Load Manager app can make it quieter)",
+    "[info]    power: 100% plugged in",
+    "[info]    free disk space at <tmp>\\VideoWork: 2.7 TB",
+    "[info]    work folder holds 4.0 KB"
+   ]
+  },
+  "history": [
+   {
+    "id": 3,
+    "kind": "doctor",
+    "title": "Health check",
+    "command": "lm doctor",
+    "status": "done",
+    "code": 0,
+    "started": 1793273302.103043,
+    "ended": 1793273305.0407512,
+    "summary": ""
+   },
+   {
+    "id": 2,
+    "kind": "clean",
+    "title": "Preview what to delete for demo",
+    "command": "lm clean demo --src",
+    "status": "done",
+    "code": 0,
+    "started": 1793273301.8846576,
+    "ended": 1793273302.0193286,
+    "summary": "Nothing was removed. Add --yes to do it. (out/ is never touched.)"
+   },
+   {
+    "id": 1,
+    "kind": "fetch",
+    "title": "Copy a.mov from the cloud",
+    "command": "lm fetch --project demo -- <tmp>\\cloudish\\a.mov",
+    "status": "done",
+    "code": 0,
+    "started": 1793273301.6648698,
+    "ended": 1793273301.8593576,
+    "summary": "Copied 1, skipped 0, failed 0."
+   }
+  ],
+  "settings": {
+   "work": "<tmp>\\VideoWork",
+   "hw": "auto",
+   "min_free_gb": 0.0,
+   "ffmpeg": "",
+   "work_effective": "<tmp>\\VideoWork",
+   "ffmpeg_found": null,
+   "hw_choices": [
+    "auto",
+    "none",
+    "nvenc",
+    "amf",
+    "qsv",
+    "videotoolbox"
+   ],
+   "platform": "Windows"
+  },
+  "queue": {
+   "items": [],
+   "paused": false,
+   "reason": null,
+   "keep_going": false,
+   "after": "nothing",
+   "after_choices": [
+    "nothing",
+    "sleep",
+    "hibernate",
+    "shutdown"
+   ],
+   "countdown": null,
+   "error": null
+  },
+  "now": 1793273305.133219
+ },
+ "overview": {
+  "ok": true,
+  "work": "<tmp>\\VideoWork",
+  "exists": true,
+  "free": 2962963406848,
+  "projects": [
+   {
+    "name": "demo",
+    "src": {
+     "bytes": 4000,
+     "files": 1
+    },
+    "proxy": {
+     "bytes": 0,
+     "files": 0
+    },
+    "out": {
+     "bytes": 0,
+     "files": 0
+    }
+   }
+  ],
+  "ffmpeg": null,
+  "system": "Windows",
+  "time": 1793273305.1479697
+ },
+ "kit": {
+  "ok": true,
+  "dir": "<tmp>\\.claude",
+  "hook": false,
+  "skill": false,
+  "launcher": false,
+  "installed": false,
+  "error": null
+ },
+ "settings": {
+  "ok": true,
+  "settings": {
+   "work": "<tmp>\\VideoWork",
+   "hw": "auto",
+   "min_free_gb": 0.0,
+   "ffmpeg": "",
+   "work_effective": "<tmp>\\VideoWork",
+   "ffmpeg_found": null,
+   "hw_choices": [
+    "auto",
+    "none",
+    "nvenc",
+    "amf",
+    "qsv",
+    "videotoolbox"
+   ],
+   "platform": "Windows"
+  }
+ },
+ "inspect": {
+  "ok": true,
+  "path": "<tmp>\\cloudish\\a.mov",
+  "name": "a.mov",
+  "dir": false,
+  "cloud": false,
+  "size": 4000,
+  "project": "cloudish",
+  "inside_work": false
+ },
+ "suggest": {
+  "ok": true,
+  "output": "<tmp>\\VideoWork\\demo\\out\\a-fast.mp4"
+ },
+ "brief": {
+  "running": false,
+  "title": "Health check",
+  "status": "done",
+  "progress": 1.0,
+  "close_asked": 0.0,
+  "queued": 0,
+  "paused": false,
+  "after": "nothing"
+ },
+ "submit_now": {
+  "ok": true,
+  "queued": false,
+  "id": 4
+ },
+ "submit_queued": {
+  "ok": true,
+  "queued": true,
+  "id": 1,
+  "position": 1
+ },
+ "state_queue": {
+  "ok": true,
+  "running": true,
+  "job": {
+   "id": 4,
+   "kind": "encode",
+   "title": "Encode a.mov (fast)",
+   "command": "lm encode <tmp>\\VideoWork\\demo\\src\\a.mov <tmp>\\o1.mp4 --preset fast --codec h264 --sw",
+   "status": "running",
+   "code": null,
+   "started": 1793273305.1691446,
+   "ended": null,
+   "cancelling": false,
+   "progress": null,
+   "speed": null,
+   "eta": null,
+   "index": null,
+   "count": null,
+   "item": "",
+   "summary": null,
+   "rows": [],
+   "output": "<tmp>\\o1.mp4",
+   "project": null,
+   "lines_total": 0,
+   "result": null,
+   "lines": []
+  },
+  "history": [
+   {
+    "id": 3,
+    "kind": "doctor",
+    "title": "Health check",
+    "command": "lm doctor",
+    "status": "done",
+    "code": 0,
+    "started": 1793273302.103043,
+    "ended": 1793273305.0407512,
+    "summary": ""
+   },
+   {
+    "id": 2,
+    "kind": "clean",
+    "title": "Preview what to delete for demo",
+    "command": "lm clean demo --src",
+    "status": "done",
+    "code": 0,
+    "started": 1793273301.8846576,
+    "ended": 1793273302.0193286,
+    "summary": "Nothing was removed. Add --yes to do it. (out/ is never touched.)"
+   },
+   {
+    "id": 1,
+    "kind": "fetch",
+    "title": "Copy a.mov from the cloud",
+    "command": "lm fetch --project demo -- <tmp>\\cloudish\\a.mov",
+    "status": "done",
+    "code": 0,
+    "started": 1793273301.6648698,
+    "ended": 1793273301.8593576,
+    "summary": "Copied 1, skipped 0, failed 0."
+   }
+  ],
+  "settings": {
+   "work": "<tmp>\\VideoWork",
+   "hw": "auto",
+   "min_free_gb": 0.0,
+   "ffmpeg": "",
+   "work_effective": "<tmp>\\VideoWork",
+   "ffmpeg_found": null,
+   "hw_choices": [
+    "auto",
+    "none",
+    "nvenc",
+    "amf",
+    "qsv",
+    "videotoolbox"
+   ],
+   "platform": "Windows"
+  },
+  "queue": {
+   "items": [
+    {
+     "id": 1,
+     "kind": "encode",
+     "title": "Encode a.mov (fast)",
+     "command": "lm encode <tmp>\\VideoWork\\demo\\src\\a.mov <tmp>\\o2.mp4 --preset fast --codec h264 --sw"
+    }
+   ],
+   "paused": false,
+   "reason": null,
+   "keep_going": false,
+   "after": "nothing",
+   "after_choices": [
+    "nothing",
+    "sleep",
+    "hibernate",
+    "shutdown"
+   ],
+   "countdown": null,
+   "error": null
+  },
+  "now": 1793273305.2074618
+ },
+ "queue_pause": {
+  "ok": true,
+  "queue": {
+   "items": [
+    {
+     "id": 1,
+     "kind": "encode",
+     "title": "Encode a.mov (fast)",
+     "command": "lm encode <tmp>\\VideoWork\\demo\\src\\a.mov <tmp>\\o2.mp4 --preset fast --codec h264 --sw"
+    }
+   ],
+   "paused": true,
+   "reason": "you",
+   "keep_going": false,
+   "after": "nothing",
+   "after_choices": [
+    "nothing",
+    "sleep",
+    "hibernate",
+    "shutdown"
+   ],
+   "countdown": null,
+   "error": null
+  }
+ },
+ "queue_configure": {
+  "ok": true,
+  "queue": {
+   "items": [
+    {
+     "id": 1,
+     "kind": "encode",
+     "title": "Encode a.mov (fast)",
+     "command": "lm encode <tmp>\\VideoWork\\demo\\src\\a.mov <tmp>\\o2.mp4 --preset fast --codec h264 --sw"
+    }
+   ],
+   "paused": false,
+   "reason": null,
+   "keep_going": true,
+   "after": "sleep",
+   "after_choices": [
+    "nothing",
+    "sleep",
+    "hibernate",
+    "shutdown"
+   ],
+   "countdown": null,
+   "error": null
+  }
+ },
+ "state_countdown": {
+  "ok": true,
+  "running": false,
+  "job": {
+   "id": 5,
+   "kind": "encode",
+   "title": "Encode a.mov (fast)",
+   "command": "lm encode <tmp>\\VideoWork\\demo\\src\\a.mov <tmp>\\o2.mp4 --preset fast --codec h264 --sw",
+   "status": "done",
+   "code": 0,
+   "started": 1793273308.6763706,
+   "ended": 1793273312.1776912,
+   "cancelling": false,
+   "progress": 1.0,
+   "speed": null,
+   "eta": null,
+   "index": null,
+   "count": null,
+   "item": "",
+   "summary": "Done: <tmp>\\o2.mp4 (1.5 KB, source was 2.9 KB)",
+   "rows": [],
+   "output": "<tmp>\\o2.mp4",
+   "project": null,
+   "lines_total": 5,
+   "result": null,
+   "lines": [
+    "Input duration: 10.0 s",
+    "Encoder: libx264 (software)   preset: fast",
+    "Command: python fake_ffmpeg.py -hide_banner -nostdin -n -i <tmp>\\VideoWork\\demo\\src\\a.mov -c:v libx264 -preset fast -crf 19 -pix_fmt yuv420p -c:a aac -b:a 192k -sn -dn -movflag",
+    "Progress file: <tmp>\\VideoWork\\.logs\\encode-20261029-122828.progress (out_time and speed are the lines to watch)",
+    "Done: <tmp>\\o2.mp4 (1.5 KB, source was 2.9 KB)"
+   ]
+  },
+  "history": [
+   {
+    "id": 5,
+    "kind": "encode",
+    "title": "Encode a.mov (fast)",
+    "command": "lm encode <tmp>\\VideoWork\\demo\\src\\a.mov <tmp>\\o2.mp4 --preset fast --codec h264 --sw",
+    "status": "done",
+    "code": 0,
+    "started": 1793273308.6763706,
+    "ended": 1793273312.1776912,
+    "summary": "Done: <tmp>\\o2.mp4 (1.5 KB, source was 2.9 KB)"
+   },
+   {
+    "id": 4,
+    "kind": "encode",
+    "title": "Encode a.mov (fast)",
+    "command": "lm encode <tmp>\\VideoWork\\demo\\src\\a.mov <tmp>\\o1.mp4 --preset fast --codec h264 --sw",
+    "status": "done",
+    "code": 0,
+    "started": 1793273305.1691446,
+    "ended": 1793273308.6568532,
+    "summary": "Done: <tmp>\\o1.mp4 (1.5 KB, source was 2.9 KB)"
+   },
+   {
+    "id": 3,
+    "kind": "doctor",
+    "title": "Health check",
+    "command": "lm doctor",
+    "status": "done",
+    "code": 0,
+    "started": 1793273302.103043,
+    "ended": 1793273305.0407512,
+    "summary": ""
+   },
+   {
+    "id": 2,
+    "kind": "clean",
+    "title": "Preview what to delete for demo",
+    "command": "lm clean demo --src",
+    "status": "done",
+    "code": 0,
+    "started": 1793273301.8846576,
+    "ended": 1793273302.0193286,
+    "summary": "Nothing was removed. Add --yes to do it. (out/ is never touched.)"
+   },
+   {
+    "id": 1,
+    "kind": "fetch",
+    "title": "Copy a.mov from the cloud",
+    "command": "lm fetch --project demo -- <tmp>\\cloudish\\a.mov",
+    "status": "done",
+    "code": 0,
+    "started": 1793273301.6648698,
+    "ended": 1793273301.8593576,
+    "summary": "Copied 1, skipped 0, failed 0."
+   }
+  ],
+  "settings": {
+   "work": "<tmp>\\VideoWork",
+   "hw": "auto",
+   "min_free_gb": 0.0,
+   "ffmpeg": "",
+   "work_effective": "<tmp>\\VideoWork",
+   "ffmpeg_found": null,
+   "hw_choices": [
+    "auto",
+    "none",
+    "nvenc",
+    "amf",
+    "qsv",
+    "videotoolbox"
+   ],
+   "platform": "Windows"
+  },
+  "queue": {
+   "items": [],
+   "paused": false,
+   "reason": null,
+   "keep_going": true,
+   "after": "sleep",
+   "after_choices": [
+    "nothing",
+    "sleep",
+    "hibernate",
+    "shutdown"
+   ],
+   "countdown": {
+    "action": "sleep",
+    "seconds": 29.450624227523804
+   },
+   "error": null
+  },
+  "now": 1793273312.7341108
+ },
+ "countdown_cancel": {
+  "ok": true,
+  "queue": {
+   "items": [],
+   "paused": false,
+   "reason": null,
+   "keep_going": true,
+   "after": "nothing",
+   "after_choices": [
+    "nothing",
+    "sleep",
+    "hibernate",
+    "shutdown"
+   ],
+   "countdown": null,
+   "error": null
+  }
+ }
+}
